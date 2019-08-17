@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <!-- BEGIN DEV ONLY -->
+    <link rel="stylesheet" href="./css/sections/_footer.css">
+    <link rel="stylesheet" href="./css/sections/_header.css">
+    <link rel="stylesheet" href="./css/sections/_main.css">
+    <link rel="stylesheet" href="./css/framework/main.css">
+    <!-- END DEV ONLY -->
+    <!--<link rel="stylesheet" href="./css/master.css">-->
+    <link rel="stylesheet" href="./css/all.min.css">
+    <title>Alexandre Sanscartier - Portfolio</title>
+  </head>
+  <body>
+    <input type="text" value="title" id="windowTitle" /><button onclick="createWindow()">New Window</button>
+    <div class="asminimized-window-holder"></div>
+    <script type="text/javascript" src="./js/DraggableElement.js"></script>
+    <script type="text/javascript" src="./js/ExpandableElement.js"></script>
+    <script type="text/javascript" src="./js/ASDomHelper.js"></script>
+    <script type="text/javascript" src="./js/Page.js"></script>
+    <script type="text/javascript" src="./js/Utils.js"></script>
+    <script type="text/javascript" src="./js/ASButton.js"></script>
+    <script type="text/javascript" src="./js/ASWindow.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script>
+     function createWindow() {
+       var title = document.getElementById("windowTitle").value;
+        new ASWindow(title);
+      }
+    </script>
+  </body>
+</html>

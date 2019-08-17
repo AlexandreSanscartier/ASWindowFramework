@@ -1,0 +1,70 @@
+.aswindow {
+  position: absolute;
+  width: 200px;
+  border: 1px dotted black;
+}
+.aswindow .aswindow-top-bar {
+  position: relative;
+  cursor: move;
+  background: red;
+}
+.aswindow .aswindow-top-bar .aswindow-title {
+  float: left;
+  overflow: hidden;
+}
+.aswindow .aswindow-top-bar .aswindow-top-buttons {
+  float: right;
+  cursor: pointer;
+}
+.aswindow .aswindow-bottom-bar {
+  background: blue;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+.aswindow .aswindow-bottom-bar .aswindow-status {
+  float: left;
+  overflow: hidden;
+}
+.aswindow .aswindow-bottom-bar .aswindow-expand {
+  float: right;
+  background: yellow;
+  cursor: nwse-resize;
+  width: 18px;
+  height: 18px;
+}
+
+.asminimized-window-holder {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+.asminimized-window-holder .aswindow-minimized {
+  background: red;
+  width: 60px;
+  height: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  float: left;
+}
+.asminimized-window-holder .aswindow-minimized .aswindow-minimized-icon {
+  float: left;
+}
+.asminimized-window-holder .aswindow-minimized .aswindow-minimized-title {
+  margin-left: 2px;
+  width: 40px;
+  float: left;
+}
+
+.hide {
+  display: none;
+  visibility: hidden;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/*# sourceMappingURL=main.css.map */
