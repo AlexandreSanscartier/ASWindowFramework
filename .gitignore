@@ -1,3 +1,5 @@
 webfonts
 todo.txt
 .DS_Store
+*.css.map
+*.css
