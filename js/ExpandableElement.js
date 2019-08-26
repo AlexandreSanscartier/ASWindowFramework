@@ -1,8 +1,14 @@
-function ExpandableElement(triggerElement, expandableHtmlElement) {
+function ExpandableElement(triggerElement, expandableHtmlElement, minWidth, minHeight, maxWidth, maxHeight) {
   var instance = this;
   this.expandableHtmlElement = expandableHtmlElement;
   this.triggerElement = triggerElement;
   this.expandableHtmlElementPreviousZIndex = expandableHtmlElement.style.zIndex;
+
+  this.minWidth = minWidth;
+  this.maxWidth = maxWidth;
+
+  this.minHeight = minHeight;
+  this.maxHeight = maxHeight;
 
   this.pos = new Array(4);
 
@@ -27,12 +33,26 @@ function ExpandableElement(triggerElement, expandableHtmlElement) {
     instance.pos[2] = e.clientX;
     instance.pos[3] = e.clientY;
 
-    // TODO: Clean up this code
-    const elementWidth = element.style.width.substring(0, element.style.width.length - 2);
-    const elementHeight = element.style.height.substring(0, element.style.height.length - 2);
+    const elementWidth = extractNumberFromStyle(element.style.width);
+    const elementHeight = extractNumberFromStyle(element.style.height);
 
-    element.style.width = (elementWidth - instance.pos[0]) + 'px';
-    element.style.height = (elementHeight - instance.pos[1]) + 'px'
+    let newWidth = elementWidth - instance.pos[0];
+    let newHeight = elementHeight - instance.pos[1];
+
+    if (newWidth > instance.maxWidth) {
+      newWidth = instance.maxWidth;
+    } else if (newWidth < instance.minWidth) {
+      newWidth = instance.minWidth;
+    }
+
+    if (newHeight > instance.maxHeight) {
+      newHeight = instance.maxHeight;
+    } else if (newHeight < instance.minHeight) {
+      newHeight = instance.minHeight;
+    }
+
+    element.style.width = newWidth + 'px';
+    element.style.height = newHeight + 'px'
   }
 
   this.closeDragElement = function() {

@@ -5,6 +5,12 @@ function ASWindow(title) {
   this.guid = generateUUID();
   this.title = title;
 
+  this.minWidth = 200;
+  this.maxWidth = 1000;
+
+  this.minHeight = 200;
+  this.maxHeight = 600;
+
   /**
    *  Read only variables
    */
@@ -39,13 +45,13 @@ function ASWindow(title) {
     var asWindow = document.querySelector("div[data-id='"+instance.guid+"']");
     var browserDimensions = getBrowserDimensions();
     // TODO: Add a nice animation
-    asWindow.style.width = browserDimensions.width - asWindow.offsetLeft + "px";
-    asWindow.style.height = browserDimensions.height - asWindow.offsetTop + "px";
+    asWindow.style.width = Math.min(browserDimensions.width - asWindow.offsetLeft, instance.maxWidth) + "px";
+    asWindow.style.height = Math.min(browserDimensions.height - asWindow.offsetTop, instance.maxHeight) + "px";
 
     this.originalWidth
 
-    console.log(asWindow.style.width + " " + browserDimensions.width);
-    console.log(asWindow.style.height + " " + browserDimensions.height);
+    console.log("window:" + asWindow.style.width + " browser:" + browserDimensions.width);
+    console.log("window:" + asWindow.style.height + " browser:" + browserDimensions.height);
   }
 
   this.closeButtonClick = function(e) {
@@ -120,7 +126,7 @@ function ASWindow(title) {
     asWindowStatusBar.innerHTML = "bottom status bar";
 
     const asWindowExpand = this.asDomHelper.createDiv();
-    new ExpandableElement(asWindowExpand, asWindow);
+    new ExpandableElement(asWindowExpand, asWindow, this.minWidth, this.minHeight, this.maxWidth, this.maxHeight);
     asWindowExpand.className = ASWINDOW_EXPAND;
 
     asWindowBottomBar.appendChild(asWindowStatusBar);

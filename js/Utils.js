@@ -13,6 +13,16 @@ function generateUUID() { // Public Domain/MIT
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
 }
+
+function extractNumberFromStyle(style) {
+  var numberFromStyle = style.substring(0, style.length - 2);
+  if(Number(numberFromStyle)) {
+    return numberFromStyle;
+  }
+  console.error(style);
+  return 0;
+}
+
 function getBrowserDimensions() {
   return {width: window.innerWidth, height: window.innerHeight}
 }
