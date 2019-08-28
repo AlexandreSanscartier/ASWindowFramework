@@ -164,11 +164,7 @@ function ASWindow(title) {
 
     const asWindowContent = this.asDomHelper.createDiv();
     asWindowContent.className = ASWINDOW_CONTENT_CLASSNAME;
-    asWindowContent.innerHTML += "<h1>ASWindow</h1>";
-    asWindowContent.innerHTML += "<p>Example content</p>";
-    asWindowContent.innerHTML += "<br />";
-    asWindowContent.innerHTML += "<h2>Testing the overflow</h2>";
-    asWindowContent.innerHTML += "<p>Lorem ipsum dol res, Lorem ipsum dol res, Lorem ipsum dol res, Lorem ipsum dol res, Lorem ipsum dol res, </p>";
+    asWindowContent.innerHTML = new ASContentGenerator().generateWindowContent();
 
     const asWindowStatusBar = this.asDomHelper.createDiv();
     asWindowStatusBar.className = ASWINDOW_STATUS_CLASSNAME;

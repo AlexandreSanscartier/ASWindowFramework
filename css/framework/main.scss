@@ -6,6 +6,7 @@ $aswindow-expand-button-width:18px;
 $aswindow-expand-button-height:18px;
 
 $aswindow-top-bar-height: 18px;
+$aswindow-bottom-bar-height: 18px;
 $aswindow-top-bar-buttons-left-margin: 20px;
 $aswindow-top-bar-title-left-padding: 20px;
 
@@ -51,12 +52,14 @@ $aswindow-top-bar-title-left-padding: 20px;
   }
   .aswindow-content {
     overflow-y: scroll;
-    height: calc(100% - #{$aswindow-top-bar-height});
+    padding:5px;
+    height: calc(100% - #{$aswindow-top-bar-height} - #{$aswindow-bottom-bar-height});
   }
   .aswindow-bottom-bar {
     background: blue;
     position: absolute;
     width:100%;
+    height:$aswindow-bottom-bar-height;
     bottom: 0;
 
     .aswindow-status {
