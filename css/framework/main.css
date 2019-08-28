@@ -16,6 +16,7 @@
 
 .aswindow {
   position: absolute;
+  background: white;
   width: 200px;
   border: 1px dotted black;
 }

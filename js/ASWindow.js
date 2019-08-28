@@ -25,6 +25,32 @@ function ASWindow(title) {
   const ASWINDOW_MINIMIZED = "aswindow-minimized";
   const ASWINDOW_MINIMIZED_TITLE = "aswindow-minimized-title";
 
+  this.windowClick = function(e) {
+    console.log("clicked window: " + instance.guid);
+    var asWindow = document.querySelector("div[data-id='"+instance.guid+"']");
+    var asLabel = asWindow.querySelector("div[window-id='"+instance.guid+"']");
+    var currentZIndex = asLabel.getAttribute('data-value');
+    var maxZIndex = instance.getWindowCount() - 1;
+    console.log("current: " + currentZIndex + " Max: " + maxZIndex);
+    // This means we need to set the z-index to a higher amount
+    if(currentZIndex !== maxZIndex) {
+      var asLabels = document.querySelectorAll("div[data-type='window-z-index']");
+      for(let i = 0; i < asLabels.length; i += 1) {
+        let label = asLabels[i];
+        let labelZIndex = label.getAttribute('data-value');
+        if(labelZIndex > currentZIndex) {
+          labelZIndex -= 1
+          label.setAttribute('data-value', labelZIndex);
+          let windowGuid = label.getAttribute('window-id');
+          let windowToChange = document.querySelector("div[data-id='"+windowGuid+"']");
+          windowToChange.style.zIndex = labelZIndex;
+        }
+      }
+      asLabel.setAttribute('data-value', maxZIndex);
+      asWindow.style.zIndex = maxZIndex;
+    }
+  }
+
   this.restoreWindowClick = function(e) {
     console.log("restoring window " + instance.guid);
     var asWindowMinimizedButton = document.querySelector("div[data-id='"+instance.guid+"'][class='"+ASWINDOW_MINIMIZED+"']");
@@ -45,6 +71,8 @@ function ASWindow(title) {
     var asWindow = document.querySelector("div[data-id='"+instance.guid+"']");
     var browserDimensions = getBrowserDimensions();
     // TODO: Add a nice animation
+    asWindow.style.top = "0px";
+    asWindow.style.left = "0px";
     asWindow.style.width = Math.min(browserDimensions.width - asWindow.offsetLeft, instance.maxWidth) + "px";
     asWindow.style.height = Math.min(browserDimensions.height - asWindow.offsetTop, instance.maxHeight) + "px";
 
@@ -84,6 +112,14 @@ function ASWindow(title) {
     document.getElementsByClassName("asminimized-window-holder")[0].appendChild(asMinimizedWindow);
   }
 
+  this.getWindowCount = function() {
+    var asLabels = document.querySelectorAll("div[data-type='window-z-index']");
+    if(asLabels === null) {
+      return 1;
+    }
+    return asLabels.length + 1;
+  }
+
   this.initialize = function() {
     //this.title = this.generateRandomTitle();
     const asWindow = this.asDomHelper.createDiv();
@@ -91,6 +127,11 @@ function ASWindow(title) {
     asWindow.setAttribute("data-id", this.guid);
     asWindow.style.height = "200px";
     asWindow.style.width = "200px";
+
+    asWindow.addEventListener("click", this.windowClick, false);
+
+    const asLabel = new ASLabel(this.getWindowCount(), this.guid, 'window-z-index','hide');
+    asWindow.appendChild(asLabel.getHtmlElement());
 
     const asWindowTopBar = this.asDomHelper.createDiv();
     new DraggableElement(asWindowTopBar, asWindow);
