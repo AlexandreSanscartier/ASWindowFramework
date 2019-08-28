@@ -27,28 +27,7 @@ function ASWindow(title) {
 
   this.windowClick = function(e) {
     console.log("clicked window: " + instance.guid);
-    var asWindow = document.querySelector("div[data-id='"+instance.guid+"']");
-    var asLabel = asWindow.querySelector("div[window-id='"+instance.guid+"']");
-    var currentZIndex = asLabel.getAttribute('data-value');
-    var maxZIndex = instance.getWindowCount() - 1;
-    console.log("current: " + currentZIndex + " Max: " + maxZIndex);
-    // This means we need to set the z-index to a higher amount
-    if(currentZIndex !== maxZIndex) {
-      var asLabels = document.querySelectorAll("div[data-type='window-z-index']");
-      for(let i = 0; i < asLabels.length; i += 1) {
-        let label = asLabels[i];
-        let labelZIndex = label.getAttribute('data-value');
-        if(labelZIndex > currentZIndex) {
-          labelZIndex -= 1
-          label.setAttribute('data-value', labelZIndex);
-          let windowGuid = label.getAttribute('window-id');
-          let windowToChange = document.querySelector("div[data-id='"+windowGuid+"']");
-          windowToChange.style.zIndex = labelZIndex;
-        }
-      }
-      asLabel.setAttribute('data-value', maxZIndex);
-      asWindow.style.zIndex = maxZIndex;
-    }
+    instance.focusWindow();
   }
 
   this.restoreWindowClick = function(e) {
@@ -56,6 +35,7 @@ function ASWindow(title) {
     var asWindowMinimizedButton = document.querySelector("div[data-id='"+instance.guid+"'][class='"+ASWINDOW_MINIMIZED+"']");
     asWindowMinimizedButton.parentNode.removeChild(asWindowMinimizedButton);
     var asWindow = document.querySelector("div[data-id='"+instance.guid+"']");
+    instance.focusWindow();
     instance.asDomHelper.removeClassName(asWindow, "hide");
   }
 
@@ -88,14 +68,6 @@ function ASWindow(title) {
     asWindow.parentNode.removeChild(asWindow);
   }
 
-  this.generateRandomTitle = function() {
-    const jsonRandomList = '{"names": ["test","testy","tiesto"]}';
-    const randomNameList = JSON.parse(jsonRandomList).names;
-    const randomNumber = Math.floor(Math.random() * randomNameList.length);
-    const name = randomNameList[randomNumber];
-    return name;
-  }
-
   this.createMinimizedWindow = function() {
     const asMinimizedWindow = new ASButton("div", ASWINDOW_MINIMIZED, "Restore Window", instance.restoreWindowClick).getHtmlElement();
     asMinimizedWindow.setAttribute("data-id", this.guid);
@@ -110,6 +82,38 @@ function ASWindow(title) {
     asMinimizedWindow.appendChild(minimiziedWindowTitle);
 
     document.getElementsByClassName("asminimized-window-holder")[0].appendChild(asMinimizedWindow);
+  }
+
+  this.generateRandomTitle = function() {
+    const jsonRandomList = '{"names": ["test","testy","tiesto"]}';
+    const randomNameList = JSON.parse(jsonRandomList).names;
+    const randomNumber = Math.floor(Math.random() * randomNameList.length);
+    const name = randomNameList[randomNumber];
+    return name;
+  }
+
+  this.focusWindow = function() {
+    var asWindow = document.querySelector("div[data-id='"+instance.guid+"']");
+    var asLabel = asWindow.querySelector("div[window-id='"+instance.guid+"']");
+    var currentZIndex = asLabel.getAttribute('data-value');
+    var maxZIndex = instance.getWindowCount() - 1;
+    // This means we need to set the z-index to a higher amount
+    if(currentZIndex !== maxZIndex) {
+      var asLabels = document.querySelectorAll("div[data-type='window-z-index']");
+      for(let i = 0; i < asLabels.length; i += 1) {
+        let label = asLabels[i];
+        let labelZIndex = label.getAttribute('data-value');
+        if(labelZIndex > currentZIndex) {
+          labelZIndex -= 1
+          label.setAttribute('data-value', labelZIndex);
+          let windowGuid = label.getAttribute('window-id');
+          let windowToChange = document.querySelector("div[data-id='"+windowGuid+"']");
+          windowToChange.style.zIndex = labelZIndex;
+        }
+      }
+      asLabel.setAttribute('data-value', maxZIndex);
+      asWindow.style.zIndex = maxZIndex;
+    }
   }
 
   this.getWindowCount = function() {
@@ -128,7 +132,7 @@ function ASWindow(title) {
     asWindow.style.height = "200px";
     asWindow.style.width = "200px";
 
-    asWindow.addEventListener("click", this.windowClick, false);
+    asWindow.addEventListener("click", this.windowClick, true);
 
     const asLabel = new ASLabel(this.getWindowCount(), this.guid, 'window-z-index','hide');
     asWindow.appendChild(asLabel.getHtmlElement());
@@ -160,7 +164,11 @@ function ASWindow(title) {
 
     const asWindowContent = this.asDomHelper.createDiv();
     asWindowContent.className = ASWINDOW_CONTENT_CLASSNAME;
-    asWindowContent.innerHTML = "Example content";
+    asWindowContent.innerHTML += "<h1>ASWindow</h1>";
+    asWindowContent.innerHTML += "<p>Example content</p>";
+    asWindowContent.innerHTML += "<br />";
+    asWindowContent.innerHTML += "<h2>Testing the overflow</h2>";
+    asWindowContent.innerHTML += "<p>Lorem ipsum dol res, Lorem ipsum dol res, Lorem ipsum dol res, Lorem ipsum dol res, Lorem ipsum dol res, </p>";
 
     const asWindowStatusBar = this.asDomHelper.createDiv();
     asWindowStatusBar.className = ASWINDOW_STATUS_CLASSNAME;

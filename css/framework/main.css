@@ -18,20 +18,26 @@
   position: absolute;
   background: white;
   width: 200px;
-  border: 1px dotted black;
+  border: 1px solid black;
 }
 .aswindow .aswindow-top-bar {
+  height: 18px;
   position: relative;
   cursor: move;
   background: red;
 }
 .aswindow .aswindow-top-bar .aswindow-title {
-  float: left;
+  padding-left: 20px;
   overflow: hidden;
 }
 .aswindow .aswindow-top-bar .aswindow-top-buttons {
   float: right;
+  margin-left: 20px;
   cursor: pointer;
+}
+.aswindow .aswindow-content {
+  overflow-y: scroll;
+  height: calc(100% - 18px);
 }
 .aswindow .aswindow-bottom-bar {
   background: blue;
