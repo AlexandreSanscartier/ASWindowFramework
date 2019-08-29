@@ -35,6 +35,11 @@
   margin-left: 20px;
   cursor: pointer;
 }
+.aswindow .aswindow-top-bar .aswindow-top-buttons .asbutton {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+}
 .aswindow .aswindow-content {
   overflow-y: scroll;
   padding: 5px;

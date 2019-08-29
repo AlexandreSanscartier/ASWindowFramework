@@ -1,15 +1,15 @@
-function ASWindow(title) {
+function ASWindow(title, minWdidth, minHeight, maxWidth, maxHeight) {
   var instance = this;
 
   this.asDomHelper = new ASDomHelper();
   this.guid = generateUUID();
   this.title = title;
 
-  this.minWidth = 200;
-  this.maxWidth = 1000;
+  this.minWidth = minWdidth;
+  this.maxWidth = maxWidth;
 
-  this.minHeight = 200;
-  this.maxHeight = 600;
+  this.minHeight = minHeight;
+  this.maxHeight = maxHeight;
 
   /**
    *  Read only variables
@@ -124,19 +124,7 @@ function ASWindow(title) {
     return asLabels.length + 1;
   }
 
-  this.initialize = function() {
-    //this.title = this.generateRandomTitle();
-    const asWindow = this.asDomHelper.createDiv();
-    asWindow.className = ASWINDOW_CLASSNAME;
-    asWindow.setAttribute("data-id", this.guid);
-    asWindow.style.height = "200px";
-    asWindow.style.width = "200px";
-
-    asWindow.addEventListener("click", this.windowClick, true);
-
-    const asLabel = new ASLabel(this.getWindowCount(), this.guid, 'window-z-index','hide');
-    asWindow.appendChild(asLabel.getHtmlElement());
-
+  this.generateTopBar = function(asWindow) {
     const asWindowTopBar = this.asDomHelper.createDiv();
     new DraggableElement(asWindowTopBar, asWindow);
     asWindowTopBar.className = ASWINDOW_TOP_BAR_CLASSNAME + " clearfix";
@@ -148,9 +136,6 @@ function ASWindow(title) {
     const iconBarHolder = this.asDomHelper.createDiv();
     iconBarHolder.className = ASWINDOW_TOP_BUTTONS_CLASSNAME;
 
-    const asWindowBottomBar = this.asDomHelper.createDiv();
-    asWindowBottomBar.className = ASWINDOW_BOTTOM_BAR_CLASSNAME + " clearfix";
-
     const minimizeButton = new ASButton("i", "fas fa-window-minimize", "Minimize", this.minimizeButtonClick);
     const maximizeButton = new ASButton("i", "fas fa-window-maximize", "Maximize", this.maximizeButtonClick);
     const closeButton = new ASButton("i", "fas fa-window-close", "Close", this.closeButtonClick);
@@ -161,10 +146,19 @@ function ASWindow(title) {
 
     asWindowTopBar.appendChild(iconBarHolder);
     asWindowTopBar.appendChild(titleBar);
+    return asWindowTopBar;
+  }
 
+  this.generateContent = function(asWindow) {
     const asWindowContent = this.asDomHelper.createDiv();
     asWindowContent.className = ASWINDOW_CONTENT_CLASSNAME;
     asWindowContent.innerHTML = new ASContentGenerator().generateWindowContent();
+    return asWindowContent;
+  }
+
+  this.generateBottomBar = function(asWindow) {
+    const asWindowBottomBar = this.asDomHelper.createDiv();
+    asWindowBottomBar.className = ASWINDOW_BOTTOM_BAR_CLASSNAME + " clearfix";
 
     const asWindowStatusBar = this.asDomHelper.createDiv();
     asWindowStatusBar.className = ASWINDOW_STATUS_CLASSNAME;
@@ -176,12 +170,31 @@ function ASWindow(title) {
 
     asWindowBottomBar.appendChild(asWindowStatusBar);
     asWindowBottomBar.appendChild(asWindowExpand);
+    return asWindowBottomBar;
+  }
+
+  this.initialize = function() {
+    //this.title = this.generateRandomTitle();
+    const asWindow = this.asDomHelper.createDiv();
+    asWindow.className = ASWINDOW_CLASSNAME;
+    asWindow.setAttribute("data-id", this.guid);
+    this.asDomHelper.setElementWidth(asWindow, this.minWidth);
+    this.asDomHelper.setElementHeight(asWindow, this.minHeight);
+
+    asWindow.addEventListener("click", this.windowClick, true);
+
+    const asLabel = new ASLabel(this.getWindowCount(), this.guid, 'window-z-index','hide');
+    asWindow.appendChild(asLabel.getHtmlElement());
+
+    const asWindowTopBar = this.generateTopBar(asWindow);
+    const asWindowContent = this.generateContent(asWindow);
+    const asWindowBottomBar = this.generateBottomBar(asWindow);
 
     asWindow.appendChild(asWindowTopBar);
     asWindow.appendChild(asWindowContent);
     asWindow.appendChild(asWindowBottomBar)
 
-    document.getElementsByTagName("body")[0].appendChild(asWindow);
+    this.asDomHelper.addToBody(asWindow);
   }
 
   this.initialize();

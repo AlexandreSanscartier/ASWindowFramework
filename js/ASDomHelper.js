@@ -12,6 +12,24 @@ function ASDomHelper() {
     return this.createElement("i");
   }
 
+  this.addToBody = function(element) {
+    document.getElementsByTagName("body")[0].appendChild(element);
+  }
+
+  this.setElementWidth = function(element, width) {
+    if((isNaN(width) && width.substr(width.length-2,2) !== 'px') || !isNaN(width)) {
+      width += 'px';
+    }
+    element.style.width = width;
+  }
+
+  this.setElementHeight = function(element, height) {
+    if((isNaN(height) && height.substr(height.length-2,2) !== 'px') || !isNaN(height)) {
+      height += 'px';
+    } 
+    element.style.height = height;
+  }
+
   /**
    * Adds a new classname to the htmlElement if it doesn't already exist
    *

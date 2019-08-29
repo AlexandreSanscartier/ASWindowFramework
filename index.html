@@ -19,8 +19,12 @@
     <script type="text/javascript" src="./js/ASWindow.js"></script>
     <script>
      function createWindow() {
-       var title = document.getElementById("windowTitle").value;
-        new ASWindow(title);
+         var title = document.getElementById("windowTitle").value;
+         var minWidth = 200;
+         var minHeight = 200;
+         var maxWidth = 800;
+         var maxHeight = 600;
+         new ASWindow(title, minWidth, minHeight, maxWidth, maxHeight);
       }
     </script>
   </body>

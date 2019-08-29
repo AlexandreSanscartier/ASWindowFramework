@@ -10,6 +10,8 @@ $aswindow-bottom-bar-height: 18px;
 $aswindow-top-bar-buttons-left-margin: 20px;
 $aswindow-top-bar-title-left-padding: 20px;
 
+$aswindow-button-size: 16px;
+
 * {
   padding:0;
   margin:0;
@@ -48,6 +50,12 @@ $aswindow-top-bar-title-left-padding: 20px;
       float:right;
       margin-left:$aswindow-top-bar-buttons-left-margin;
       cursor: pointer;
+
+      .asbutton {
+        display: inline-block;
+        width:$aswindow-button-size;
+        height:$aswindow-button-size;
+      }
     }
   }
   .aswindow-content {
