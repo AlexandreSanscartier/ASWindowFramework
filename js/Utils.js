@@ -15,14 +15,14 @@ function generateUUID() { // Public Domain/MIT
 }
 
 function extractNumberFromStyle(style) {
-  if(style.substr(style.length - 2, 2) !== 'px') {
+  if(style.substr(style.length - 2, 2) === 'px') {
     var numberFromStyle = style.substring(0, style.length - 2);
     if(Number(numberFromStyle)) {
       return numberFromStyle;
     }
     console.error(style);
   }
-  return 0;
+  return style;
 }
 
 function getBrowserDimensions() {

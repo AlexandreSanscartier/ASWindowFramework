@@ -178,6 +178,8 @@ function ASWindow(title, minWdidth, minHeight, maxWidth, maxHeight) {
     const asWindow = this.asDomHelper.createDiv();
     asWindow.className = ASWINDOW_CLASSNAME;
     asWindow.setAttribute("data-id", this.guid);
+    this.asDomHelper.setElementPosition(asWindow, 'top', 0);
+    this.asDomHelper.setElementPosition(asWindow, 'left', 0);
     this.asDomHelper.setElementWidth(asWindow, this.minWidth);
     this.asDomHelper.setElementHeight(asWindow, this.minHeight);
 

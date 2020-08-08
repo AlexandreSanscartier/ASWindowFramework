@@ -12,6 +12,10 @@ function ASDomHelper() {
     return this.createElement("i");
   }
 
+  this.createProgress = function() {
+    return this.createElement("progress")
+  }
+
   this.addToBody = function(element) {
     document.getElementsByTagName("body")[0].appendChild(element);
   }
@@ -26,8 +30,28 @@ function ASDomHelper() {
   this.setElementHeight = function(element, height) {
     if((isNaN(height) && height.substr(height.length-2,2) !== 'px') || !isNaN(height)) {
       height += 'px';
-    } 
+    }
     element.style.height = height;
+  }
+
+  this.setElementPosition = function(element, position, value) {
+    if((isNaN(value) && value.substr(value.length-2,2) !== 'px') || !isNaN(value)) {
+      value += 'px';
+    }
+    switch(position) {
+      case 'top':
+        element.style.top = value;
+      break;
+      case 'bottom':
+        element.style.bottom = value;
+      break;
+      case 'left':
+        element.style.left = value;
+      break;
+      case 'right':
+        element.style.right = value;
+      break;
+    }
   }
 
   /**
